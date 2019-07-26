@@ -9,17 +9,9 @@
         <version>1.0.0</version>
     </parent>
     <groupId>com.xx</groupId>
-    <artifactId>xchat-admin</artifactId>
+    <artifactId>xchat-common</artifactId>
     <version>1.0.0</version>
-    <name>xchat-admin</name>
-    <packaging>jar</packaging>
-    <description>xchat-admin</description>
+    <name>xchat-common</name>
+    <description>xchat-common</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.xx</groupId>
-            <artifactId>xchat-common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-    </dependencies>
 </project>
