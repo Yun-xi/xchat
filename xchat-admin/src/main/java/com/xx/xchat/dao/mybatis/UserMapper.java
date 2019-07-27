@@ -1,6 +1,9 @@
 package com.xx.xchat.dao.mybatis;
 
-import org.springframework.stereotype.Repository;
+import com.xx.xchat.entity.UserEntity;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
+
+    UserEntity seleteUser(@Param("id")Integer id);
 }
