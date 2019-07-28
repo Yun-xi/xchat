@@ -1,5 +1,9 @@
 package com.xx.xchat.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xx.xchat.dao.UserMapper;
+import com.xx.xchat.entity.UserEntity;
 import com.xx.xchat.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -9,5 +13,5 @@ import org.springframework.stereotype.Service;
  * @date 2019-07-27 17:21
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService{
 }

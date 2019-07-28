@@ -1,55 +1,64 @@
 package com.xx.xchat.entity;
 
-import com.xx.xchat.base.BaseIdentityEntity;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.xx.xchat.enums.StateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.Date;
+
 
 /**
  * @author xieyaqi
  * @mail 987159036@qq.com
  * @date 2019-07-26 17:50
- *
- * @Table catalog和schema屬性是指定数据库实例名
- * 当catalog属性不指定时，新创建的表将出现在url指定的数据库实例中
- * 当catalog属性设置名称时，若数据库存在和指定名称一致的实例，新创建的表将出现在该实例中
- *
  */
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "user")
-public class UserEntity extends BaseIdentityEntity {
+@TableName("user")
+public class UserEntity implements Serializable {
 
-    @Column(name = "name", columnDefinition = "VARCHAR(32) COMMENT '用戶姓名'")
+    private static final long serialVersionUID = 5404786868951132035L;
+
+    /**
+     * AUTO	                数据库自增
+     * INPUT	            自行输入
+     * ID_WORKER	        分布式全局唯一ID 长整型类型
+     * UUID	                32位UUID字符串
+     * NONE	                无状态
+     * ID_WORKER_STR	    分布式全局唯一ID 字符串类型
+     *
+     */
+    @TableId(value = "id", type = IdType.ID_WORKER_STR)
+    private String id;
+
+    private Date createTime;
+
+    private Date updateTime;
+
     private String name;
 
-    @Column(name = "mail", columnDefinition = "VARCHAR(32) COMMENT '邮箱'")
     private String mail;
 
-    @Column(name = "phone", columnDefinition = "VARCHAR(32) COMMENT '手机号'")
     private String phone;
 
-    @Column(name = "password", columnDefinition = "VARCHAR(32) COMMENT '密码'")
     private String password;
 
-    @Column(name = "salt", columnDefinition = "VARCHAR(32) COMMENT '盐'")
     private String salt;
 
-    @Column(name = "department_id", columnDefinition = "INT COMMENT '部门编号'")
     private Integer departmentId;
 
     /**
      * @see StateEnum
      */
-    @Column(name = "state", columnDefinition = "SMALLINT COMMENT '状态 1:正常 2:禁用'")
     private Integer state;
 }
