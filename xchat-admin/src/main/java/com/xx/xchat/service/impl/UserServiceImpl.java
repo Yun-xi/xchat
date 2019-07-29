@@ -1,6 +1,5 @@
 package com.xx.xchat.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xx.xchat.dao.UserMapper;
 import com.xx.xchat.entity.UserEntity;

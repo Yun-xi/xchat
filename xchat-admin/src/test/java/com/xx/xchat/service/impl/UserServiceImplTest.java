@@ -26,14 +26,12 @@ public class UserServiceImplTest extends XchatAdminApplicationTests {
     @Test
     public void testSave() {
         UserEntity userEntity = UserEntity.builder()
-                .createTime(new Date())
-                .updateTime(new Date())
                 .state(StateEnum.NORMAL.getValue())
                 .salt(UUID.randomUUID().toString())
                 .password(UUID.randomUUID().toString())
                 .mail("987@qq.com")
                 .departmentId(1)
-                .name("张三")
+                .name("李四")
                 .phone("133333333333")
                 .build();
         boolean result = userService.save(userEntity);
