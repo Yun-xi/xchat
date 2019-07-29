@@ -30,6 +30,11 @@ public class ModelMetaObjectHandler implements MetaObjectHandler {
         if(null == updateTime){
             this.setFieldValByName("updateTime", now, metaObject);
         }
+
+        Object version = this.getFieldValByName("version", metaObject);
+        if(null == version){
+            this.setFieldValByName("version", 1L, metaObject);
+        }
     }
 
     @Override

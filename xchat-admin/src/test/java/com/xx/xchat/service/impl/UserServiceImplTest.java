@@ -25,16 +25,24 @@ public class UserServiceImplTest extends XchatAdminApplicationTests {
 
     @Test
     public void testSave() {
-        UserEntity userEntity = UserEntity.builder()
-                .state(StateEnum.NORMAL.getValue())
-                .salt(UUID.randomUUID().toString())
-                .password(UUID.randomUUID().toString())
-                .mail("987@qq.com")
-                .departmentId(1)
-                .name("李四")
-                .phone("133333333333")
-                .build();
+        UserEntity userEntity = new UserEntity()
+                .setState(StateEnum.NORMAL)
+                .setSalt(UUID.randomUUID().toString())
+                .setPassword(UUID.randomUUID().toString())
+                .setMail("987@qq.com")
+                .setDepartmentId(1)
+                .setName("李四")
+                .setPhone("133333333333");
         boolean result = userService.save(userEntity);
         Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testUpdate() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId("1155723590046351361");
+        userEntity.setState(StateEnum.NORMAL);
+        boolean b = userService.updateById(userEntity);
+        Assert.assertTrue(b);
     }
 }

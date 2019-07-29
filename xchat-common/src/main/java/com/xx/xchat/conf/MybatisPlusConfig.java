@@ -57,7 +57,7 @@ import java.util.List;
  * @since 2017/4/1
  */
 @Configuration
-@MapperScan("com.baomidou.mybatisplus.test.h2.mapper")
+@MapperScan(basePackages = "com.xx.xchat.dao")
 public class MybatisPlusConfig {
 
     @Bean("mybatisSqlSession")
@@ -66,6 +66,7 @@ public class MybatisPlusConfig {
         sqlSessionFactory.setDataSource(dataSource);
 //        sqlSessionFactory.setConfigLocation(resourceLoader.getResource("classpath:mybatis-config-object-factory.xml"));
         sqlSessionFactory.setTypeAliasesPackage("com.xx.xchat.entity");
+
         MybatisConfiguration configuration = new MybatisConfiguration();
 //        configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
 //        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
@@ -78,6 +79,7 @@ public class MybatisPlusConfig {
         configuration.setDefaultExecutorType(ExecutorType.REUSE);
         configuration.setDefaultEnumTypeHandler(EnumOrdinalTypeHandler.class);  //默认枚举处理
         sqlSessionFactory.setConfiguration(configuration);
+
         PaginationInterceptor pagination = new PaginationInterceptor();
         SqlExplainInterceptor sqlExplainInterceptor = new SqlExplainInterceptor();
         List<ISqlParser> sqlParserList = new ArrayList<>();
@@ -129,7 +131,7 @@ public class MybatisPlusConfig {
         });
         sqlSessionFactory.setGlobalConfig(globalConfig);
         // 扫描枚举包
-        sqlSessionFactory.setTypeEnumsPackage("com.baomidou.mybatisplus.test.h2.enums");
+        sqlSessionFactory.setTypeEnumsPackage("com.xx.xchat.enums");
         return sqlSessionFactory.getObject();
     }
 

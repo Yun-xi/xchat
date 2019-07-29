@@ -2,6 +2,7 @@ package com.xx.xchat.base;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import java.util.Date;
  * @mail 987159036@qq.com
  * @date 2019-07-29 11:08
  */
+@Data
 public class BaseEntity {
     /**
      * AUTO	                数据库自增
@@ -53,7 +55,7 @@ public class BaseEntity {
      * 实体属性更新到数据库时，属性值来源的优先级：实体类对象setter设置的值 &gt; fill策略填充的值 &gt; update策略SQL注入的值。<br>
      * <b>注意：</b><br>
      * setter优先级和fill策略优先级，是在MetaObjectHandler中自己手动实现的。
-     */
+     **/
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
 

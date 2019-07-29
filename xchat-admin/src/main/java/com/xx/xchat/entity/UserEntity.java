@@ -37,7 +37,7 @@ public class UserEntity extends BaseEntity implements Serializable {
 
     private String salt;
 
-    private Integer departmentId;
+    private String departmentId;
 
     private StateEnum state;
 }
