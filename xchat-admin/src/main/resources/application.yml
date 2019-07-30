@@ -2,6 +2,10 @@ server:
   port: 8080
 
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/JSP/
+      suffix: .jsp
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -17,9 +21,12 @@ spring:
       max-pool-prepared-statement-per-connection-size: 20
       time-between-eviction-runs-millis: 60000
       min-evictable-idle-time-millis: 300000
-
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
+  redis:
+    host: 192.168.1.183
+    port: 6379
+    password: sszn
+    timeout: 0
+    database: 0
 
 ## 打开mybatis的日志输出 ##
 logging:
@@ -34,6 +41,7 @@ swagger:
 ## ExecutorType.REUSE: 这个执行器类型会复用预处理语句。
 ## ExecutorType.BATCH: 这个执行器会批量执行所有更新语句,如果 SELECT 在它们中间执行还会标定它们是 必须的,来保证一个简单并易于理解的行为。
 mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
   type-enums-package: com.xx.xchat.enums
   type-aliases-package: com.xx.xchat.entity
   configuration:
@@ -49,4 +57,9 @@ mybatis-plus:
       id-type: id_worker_str
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+
+shiro:
+  globalSessionTimeout: 3600
+  cookieTimeout: 86400
 

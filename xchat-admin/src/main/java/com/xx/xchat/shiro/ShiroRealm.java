@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xx.xchat.entity.*;
 import com.xx.xchat.enums.StateEnum;
 import com.xx.xchat.service.*;
+import com.xx.xchat.utils.Constants;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -85,5 +88,13 @@ public class ShiroRealm extends AuthorizingRealm {
 
         return new SimpleAuthenticationInfo(userEntity, userEntity.getPassword(),
                 ByteSource.Util.bytes(userEntity.getSalt()), getName());
+    }
+
+    @Override
+    public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
+        HashedCredentialsMatcher shaCredentialsMatcher = new HashedCredentialsMatcher();
+        shaCredentialsMatcher.setHashAlgorithmName(Constants.Shiro.hashAlgorithmName);
+        shaCredentialsMatcher.setHashIterations(Constants.Shiro.hashIterations);
+        super.setCredentialsMatcher(shaCredentialsMatcher);
     }
 }

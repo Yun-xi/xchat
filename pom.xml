@@ -40,6 +40,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
         <!-- springboot热部署 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
