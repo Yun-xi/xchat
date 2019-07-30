@@ -9,10 +9,8 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author xieyaqi
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019-07-30 15:48
  */
 @Api(tags = "用户管理")
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 
@@ -44,6 +42,7 @@ public class UserController {
 
     @ApiOperation("登录")
     @PostMapping("/login")
+    @ResponseBody
     public ResponseEntity<BaseResp> login(String userName, String password) {
         try{
             Subject subject = SecurityUtils.getSubject();
@@ -64,6 +63,7 @@ public class UserController {
 
     @ApiOperation("登出")
     @GetMapping("/logout")
+    @ResponseBody
     public ResponseEntity<BaseResp> logout() {
         Subject subject = SecurityUtils.getSubject();
         if (subject != null) {
