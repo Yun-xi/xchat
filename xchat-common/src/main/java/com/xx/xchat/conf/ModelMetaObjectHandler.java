@@ -2,6 +2,7 @@ package com.xx.xchat.conf;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import java.util.Date;
  * @mail 987159036@qq.com
  * @date 2019-07-29 10:59
  */
+@Component
 public class ModelMetaObjectHandler implements MetaObjectHandler {
 
     /**
@@ -34,6 +36,11 @@ public class ModelMetaObjectHandler implements MetaObjectHandler {
         Object version = this.getFieldValByName("version", metaObject);
         if(null == version){
             this.setFieldValByName("version", 1L, metaObject);
+        }
+
+        Object deleteState = this.getFieldValByName("deleteState", metaObject);
+        if(null == version){
+            this.setFieldValByName("deleteState", 0, metaObject);
         }
     }
 

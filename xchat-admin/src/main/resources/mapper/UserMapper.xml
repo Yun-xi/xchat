@@ -3,9 +3,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xx.xchat.dao.UserMapper">
 
-    <select id="seleteUser" parameterType="integer"
-            resultType="com.xx.xchat.entity.UserEntity">
-        SELECT * FROM user where id = #{id};
-    </select>
-
 </mapper>

@@ -15,38 +15,15 @@
  */
 package com.xx.xchat.conf;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.core.MybatisConfiguration;
-import com.baomidou.mybatisplus.core.config.GlobalConfig;
-import com.baomidou.mybatisplus.core.injector.AbstractMethod;
-import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
-import com.baomidou.mybatisplus.core.parser.AbstractJsqlParser;
+
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
-import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
-import com.baomidou.mybatisplus.extension.injector.methods.additional.AlwaysUpdateSomeColumnById;
-import com.baomidou.mybatisplus.extension.injector.methods.additional.InsertBatchSomeColumn;
-import com.baomidou.mybatisplus.extension.injector.methods.additional.LogicDeleteByIdWithFill;
+import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor;
-import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import net.sf.jsqlparser.statement.delete.Delete;
-import net.sf.jsqlparser.statement.insert.Insert;
-import net.sf.jsqlparser.statement.select.SelectBody;
-import net.sf.jsqlparser.statement.update.Update;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.type.EnumOrdinalTypeHandler;
-import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ResourceLoader;
 
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,90 +37,28 @@ import java.util.List;
 @MapperScan(basePackages = "com.xx.xchat.dao")
 public class MybatisPlusConfig {
 
-    @Bean("mybatisSqlSession")
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource, ResourceLoader resourceLoader, GlobalConfig globalConfig) throws Exception {
-        MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(dataSource);
-//        sqlSessionFactory.setConfigLocation(resourceLoader.getResource("classpath:mybatis-config-object-factory.xml"));
-        sqlSessionFactory.setTypeAliasesPackage("com.xx.xchat.entity");
+    /**
+     * 分页插件
+     */
+    @Bean
+    public PaginationInterceptor paginationInterceptor() {
+        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+        // paginationInterceptor.setLimit(你的最大单页限制数量，默认 500 条，小于 0 如 -1 不受限制);
 
-        MybatisConfiguration configuration = new MybatisConfiguration();
-//        configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
-//        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
-        // 部分数据库不识别默认的NULL类型（比如oracle，需要配置该属性)
-        configuration.setJdbcTypeForNull(JdbcType.NULL);
-        /*
-         * 下划线转驼峰开启
-         */
-        configuration.setMapUnderscoreToCamelCase(true);
-        configuration.setDefaultExecutorType(ExecutorType.REUSE);
-        configuration.setDefaultEnumTypeHandler(EnumOrdinalTypeHandler.class);  //默认枚举处理
-        sqlSessionFactory.setConfiguration(configuration);
-
-        PaginationInterceptor pagination = new PaginationInterceptor();
-        SqlExplainInterceptor sqlExplainInterceptor = new SqlExplainInterceptor();
         List<ISqlParser> sqlParserList = new ArrayList<>();
-        sqlParserList.add(new AbstractJsqlParser() {
+        // 攻击 SQL 阻断解析器、加入解析链
+        sqlParserList.add(new BlockAttackSqlParser());
+        paginationInterceptor.setSqlParserList(sqlParserList);
 
-            @Override
-            public void processInsert(Insert insert) {
-
-            }
-
-            @Override
-            public void processDelete(Delete delete) {
-
-            }
-
-            @Override
-            public void processUpdate(Update update) {
-
-            }
-
-            @Override
-            public void processSelectBody(SelectBody selectBody) {
-
-            }
-        });
-        sqlExplainInterceptor.setSqlParserList(sqlParserList);
-        OptimisticLockerInterceptor optLock = new OptimisticLockerInterceptor();
-        sqlSessionFactory.setPlugins(new Interceptor[]{
-            pagination,
-            optLock,
-            sqlExplainInterceptor,
-            new PerformanceInterceptor()
-        });
-        globalConfig.setMetaObjectHandler(new ModelMetaObjectHandler());
-        globalConfig.setSqlInjector(new DefaultSqlInjector() {
-
-            /**
-             * 测试注入自定义方法
-             */
-            @Override
-            public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
-                List<AbstractMethod> methodList = super.getMethodList(mapperClass);
-                methodList.add(new LogicDeleteByIdWithFill());
-                methodList.add(new AlwaysUpdateSomeColumnById(t -> t.getFieldFill() != FieldFill.INSERT));
-                methodList.add(new InsertBatchSomeColumn(t -> !(t.getFieldFill() == FieldFill.UPDATE
-                    || t.isLogicDelete() || t.getProperty().equals("version"))));
-                return methodList;
-            }
-        });
-        sqlSessionFactory.setGlobalConfig(globalConfig);
-        // 扫描枚举包
-        sqlSessionFactory.setTypeEnumsPackage("com.xx.xchat.enums");
-        return sqlSessionFactory.getObject();
+        return paginationInterceptor;
     }
 
+    /**
+     * 乐观锁
+     * @return
+     */
     @Bean
-    public GlobalConfig globalConfiguration() {
-        GlobalConfig conf = new GlobalConfig();
-        conf.setSqlInjector(new LogicSqlInjector())
-            .setEnableSqlRunner(true)
-            .setDbConfig(new GlobalConfig.DbConfig()
-                .setLogicDeleteValue("1")
-                .setLogicNotDeleteValue("0")
-                .setIdType(IdType.ID_WORKER));
-        return conf;
+    public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+        return new OptimisticLockerInterceptor();
     }
 }

@@ -40,4 +40,8 @@ public class UserEntity extends BaseEntity implements Serializable {
     private String departmentId;
 
     private StateEnum state;
+
+    @TableLogic
+    @TableField(value="delete_state", fill = FieldFill.INSERT)
+    private Integer deleteState;
 }

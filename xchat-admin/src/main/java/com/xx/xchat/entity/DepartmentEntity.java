@@ -1,6 +1,5 @@
 package com.xx.xchat.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xx.xchat.base.BaseEntity;
 import lombok.Data;

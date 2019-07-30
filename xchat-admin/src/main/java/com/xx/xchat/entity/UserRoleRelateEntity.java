@@ -17,5 +17,5 @@ public class UserRoleRelateEntity extends BaseEntity implements Serializable {
 
     private String roleId;
 
-    private String menuId;
+    private String userId;
 }

@@ -19,7 +19,7 @@ public class UserServiceImplTest extends XchatAdminApplicationTests {
 
     @Test
     public void testSelect() {
-        UserEntity userEntity = userService.getById(1);
+        UserEntity userEntity = userService.getById("1");
         Assert.assertNull(userEntity);
     }
 
@@ -30,8 +30,8 @@ public class UserServiceImplTest extends XchatAdminApplicationTests {
                 .setSalt(UUID.randomUUID().toString())
                 .setPassword(UUID.randomUUID().toString())
                 .setMail("987@qq.com")
-                .setDepartmentId(1)
-                .setName("李四")
+                .setDepartmentId("1")
+                .setName(UUID.randomUUID().toString().substring(11))
                 .setPhone("133333333333");
         boolean result = userService.save(userEntity);
         Assert.assertTrue(result);
@@ -39,10 +39,11 @@ public class UserServiceImplTest extends XchatAdminApplicationTests {
 
     @Test
     public void testUpdate() {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId("1155723590046351361");
-        userEntity.setState(StateEnum.NORMAL);
+        UserEntity userEntity = userService.getById("1156059805262737410");
+        userEntity.setName(UUID.randomUUID().toString().substring(11));
+        userEntity.setVersion(0L);
+
         boolean b = userService.updateById(userEntity);
-        Assert.assertTrue(b);
+        Assert.assertFalse(b);
     }
 }

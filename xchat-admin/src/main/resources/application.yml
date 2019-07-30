@@ -29,3 +29,24 @@ logging:
 ## 在生产环境中为false，关闭swagger ##
 swagger:
   enable: true
+
+## ExecutorType.SIMPLE: 这个执行器类型不做特殊的事情。它为每个语句的执行创建一个新的预处理语句。
+## ExecutorType.REUSE: 这个执行器类型会复用预处理语句。
+## ExecutorType.BATCH: 这个执行器会批量执行所有更新语句,如果 SELECT 在它们中间执行还会标定它们是 必须的,来保证一个简单并易于理解的行为。
+mybatis-plus:
+  type-enums-package: com.xx.xchat.enums
+  type-aliases-package: com.xx.xchat.entity
+  configuration:
+    jdbc-type-for-null: null
+    map-underscore-to-camel-case: true #下划线转驼峰开启
+    default-executor-type: reuse
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    enable-sql-runner: true
+    db-config:
+      #主键类型 AUTO:"数据库ID自增" INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID", ID_WORKER_STR: "分布式全局唯一ID 字符串类型";
+      id-type: id_worker_str
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
