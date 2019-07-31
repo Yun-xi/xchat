@@ -1,5 +1,6 @@
 package com.xx.xchat.controller;
 
+import com.xx.xchat.entity.UserEntity;
 import com.xx.xchat.service.UserService;
 import com.xx.xchat.utils.BaseResp;
 import io.swagger.annotations.Api;
@@ -10,7 +11,10 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author xieyaqi
@@ -69,6 +73,13 @@ public class UserController {
         if (subject != null) {
             subject.logout();
         }
+        return ResponseEntity.ok(BaseResp.ok());
+    }
+
+    @ApiOperation("新增用户")
+    @PostMapping("/create")
+    public ResponseEntity<BaseResp> create(@RequestBody @Validated UserEntity userEntity){
+
         return ResponseEntity.ok(BaseResp.ok());
     }
 }

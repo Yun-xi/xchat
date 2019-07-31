@@ -26,7 +26,7 @@ spring:
     port: 6379
     password: sszn
     timeout: 0
-    database: 0
+    database: 1
 
 ## 打开mybatis的日志输出 ##
 logging:

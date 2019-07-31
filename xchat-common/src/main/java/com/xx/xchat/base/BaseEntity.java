@@ -2,6 +2,7 @@ package com.xx.xchat.base;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.Date;
@@ -66,6 +67,7 @@ public class BaseEntity {
      * @Version注解说明：<br>
      * 更新时，实体对象的version属性必须有值，才会生成SQL update ... WHERE ... and version=?
      */
+    @JsonIgnore
     @Version
     @TableField(value="version", fill = FieldFill.INSERT, update="%s+1")
     protected Long version;
