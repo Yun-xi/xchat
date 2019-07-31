@@ -1,12 +1,14 @@
 package com.xx.xchat.exception;
 
 import com.xx.xchat.enums.ErrorEnum;
+import lombok.Getter;
 
 /**
  * @author xieyaqi
  * @mail 987159036@qq.com
  * @date 2019-07-31 17:31
  */
+@Getter
 public class XException extends Exception{
     /** 错误编码 **/
     private Integer errCode;
