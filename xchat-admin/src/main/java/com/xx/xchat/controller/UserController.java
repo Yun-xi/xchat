@@ -57,6 +57,7 @@ public class UserController {
         }catch (IncorrectCredentialsException e) {
             return ResponseEntity.ok(BaseResp.fail("账号或密码不正确"));
         }catch (LockedAccountException e) {
+            e.printStackTrace();
             return ResponseEntity.ok(BaseResp.fail("账号已被锁定,请联系管理员"));
         }catch (AuthenticationException e) {
             return ResponseEntity.ok(BaseResp.fail("账户验证失败"));
@@ -79,7 +80,7 @@ public class UserController {
     @ApiOperation("新增用户")
     @PostMapping("/create")
     public ResponseEntity<BaseResp> create(@RequestBody @Validated UserEntity userEntity){
-
+        userService.saveUser(userEntity);
         return ResponseEntity.ok(BaseResp.ok());
     }
 }

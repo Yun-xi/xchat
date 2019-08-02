@@ -2,7 +2,7 @@ package com.xx.xchat.shiro;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xx.xchat.entity.*;
-import com.xx.xchat.enums.StateEnum;
+import com.xx.xchat.entity.enums.StateEnum;
 import com.xx.xchat.service.*;
 import com.xx.xchat.utils.Constants;
 import org.apache.commons.collections.CollectionUtils;
@@ -44,13 +44,13 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         UserEntity user = (UserEntity)principalCollection.getPrimaryPrincipal();
-        String userId = user.getId();
+        Integer userId = user.getId();
 
         // 角色
         List<UserRoleRelateEntity> userRoleRelateEntities = userRoleRelateService.list(new QueryWrapper<UserRoleRelateEntity>().eq("user_id", userId));
         Set<String> roleNameSet = null;
         if (CollectionUtils.isNotEmpty(userRoleRelateEntities)) {
-            Set<String> roleIdSet = userRoleRelateEntities.stream().map(UserRoleRelateEntity::getRoleId).collect(toSet());
+            Set<Integer> roleIdSet = userRoleRelateEntities.stream().map(UserRoleRelateEntity::getRoleId).collect(toSet());
 
             Collection<RoleEntity> roleEntities = roleService.listByIds(roleIdSet);
             roleNameSet = roleEntities.stream().map(RoleEntity::getName).collect(toSet());

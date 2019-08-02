@@ -6,5 +6,5 @@ import com.xx.xchat.entity.MenuEntity;
 import java.util.List;
 
 public interface MenuService extends IService<MenuEntity> {
-    List<MenuEntity> findUserPerms(String userId);
+    List<MenuEntity> findUserPerms(Integer userId);
 }

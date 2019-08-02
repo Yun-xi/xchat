@@ -29,9 +29,9 @@ spring:
     database: 1
 
 ## 打开mybatis的日志输出 ##
-logging:
-  level:
-    com.xx.xchat.dao.mybatis: DEBUG
+#logging:
+#  level:
+#    com.xx.xchat.dao.mybatis: DEBUG
 
 ## 在生产环境中为false，关闭swagger ##
 swagger:
@@ -42,14 +42,14 @@ swagger:
 ## ExecutorType.BATCH: 这个执行器会批量执行所有更新语句,如果 SELECT 在它们中间执行还会标定它们是 必须的,来保证一个简单并易于理解的行为。
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
-  type-enums-package: com.xx.xchat.enums
+  type-enums-package: com.xx.xchat.entity.enums
   type-aliases-package: com.xx.xchat.entity
   configuration:
     jdbc-type-for-null: null
     map-underscore-to-camel-case: true #下划线转驼峰开启
     default-executor-type: reuse
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #日志打印
   global-config:
     enable-sql-runner: true
     db-config:

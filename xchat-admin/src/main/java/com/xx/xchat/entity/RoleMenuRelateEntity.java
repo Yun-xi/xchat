@@ -14,7 +14,7 @@ public class RoleMenuRelateEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 3792236463356513690L;
 
-    private String roleId;
+    private Integer roleId;
 
-    private String menuId;
+    private Integer menuId;
 }

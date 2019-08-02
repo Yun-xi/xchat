@@ -17,7 +17,7 @@ import java.util.List;
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> implements MenuService {
 
     @Override
-    public List<MenuEntity> findUserPerms(String userId) {
+    public List<MenuEntity> findUserPerms(Integer userId) {
         return baseMapper.findUserPerms(userId);
     }
 }

@@ -15,7 +15,7 @@ public class UserRoleRelateEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 2018209356447386393L;
 
-    private String roleId;
+    private Integer roleId;
 
-    private String userId;
+    private Integer userId;
 }

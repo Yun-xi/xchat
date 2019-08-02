@@ -23,8 +23,8 @@ public class BaseEntity {
      * ID_WORKER_STR	    分布式全局唯一ID 字符串类型
      *
      */
-    @TableId(value = "id", type = IdType.ID_WORKER_STR)
-    private String id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 更新日期<br>

@@ -2,7 +2,7 @@ package com.xx.xchat.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xx.xchat.base.BaseEntity;
-import com.xx.xchat.enums.MenuTypeEnum;
+import com.xx.xchat.entity.enums.MenuTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -24,4 +24,6 @@ public class MenuEntity extends BaseEntity implements Serializable {
     private MenuTypeEnum type;
 
     private String icon;
+
+    private Integer parentId;
 }
