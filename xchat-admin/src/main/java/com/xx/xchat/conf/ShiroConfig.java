@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.xx.xchat.utils.Constants.Shiro.*;
+
 @Configuration
 public class ShiroConfig {
 
@@ -59,6 +61,7 @@ public class ShiroConfig {
         redisManager.setDatabase(database);
         return redisManager;
     }
+
 
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager manager) {
@@ -97,13 +100,11 @@ public class ShiroConfig {
      * @return DefaultWebSessionManager
      */
     @Bean
-    public DefaultWebSessionManager sessionManager(@Value("${shiro.globalSessionTimeout:3600}") long globalSessionTimeout) {
+    public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        // 设置 session超时时间
+        // 是否开启会话验证器，默认是开启的；
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionIdUrlRewritingEnabled(false);
-        sessionManager.setSessionValidationInterval(globalSessionTimeout * 1000);
-        sessionManager.setGlobalSessionTimeout(globalSessionTimeout * 1000);
         sessionManager.setSessionDAO(redisSessionDAO());
         return sessionManager;
     }
@@ -123,6 +124,13 @@ public class ShiroConfig {
     }
 
 
+    /**
+     * 开启shiro aop注解支持.
+     * 使用代理方式;
+     * 所以需要开启代码支持;
+     * @param manager
+     * @return
+     */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager")SecurityManager manager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
@@ -142,6 +150,10 @@ public class ShiroConfig {
     private RedisCacheManager cacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
+
+        redisCacheManager.setKeyPrefix(CACHE_KEY);
+        // 配置缓存的话要求放在session里面的实体类必须有个id标识
+        redisCacheManager.setPrincipalIdFieldName(principalIdFieldName);
         return redisCacheManager;
     }
 
@@ -153,7 +165,7 @@ public class ShiroConfig {
     private CookieRememberMeManager rememberMeManager() {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
-        // rememberMe cookie 加密的密钥
+        //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
         String encryptKey = "shiro_key";
         byte[] encryptKeyBytes = encryptKey.getBytes(StandardCharsets.UTF_8);
         String rememberKey = Base64Utils.encodeToString(Arrays.copyOf(encryptKeyBytes, 16));
@@ -178,6 +190,8 @@ public class ShiroConfig {
     public RedisSessionDAO redisSessionDAO() {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
         redisSessionDAO.setRedisManager(redisManager());
+        redisSessionDAO.setKeyPrefix(SESSION_KEY);
+        redisSessionDAO.setExpire(EXPIRE);
         return redisSessionDAO;
     }
 }

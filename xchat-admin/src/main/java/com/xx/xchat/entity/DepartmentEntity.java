@@ -16,5 +16,5 @@ public class DepartmentEntity extends BaseEntity implements Serializable {
 
     private String name;
 
-    private String parentId;
+    private Integer parentId;
 }

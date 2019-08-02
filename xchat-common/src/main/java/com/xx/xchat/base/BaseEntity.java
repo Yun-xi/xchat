@@ -3,8 +3,11 @@ package com.xx.xchat.base;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +16,11 @@ import java.util.Date;
  * @date 2019-07-29 11:08
  */
 @Data
-public class BaseEntity {
+public class BaseEntity implements Serializable {
+
+    @ApiModelProperty(hidden = true)
+    private static final long serialVersionUID = 5404786868465832035L;
+
     /**
      * AUTO	                数据库自增
      * INPUT	            自行输入
@@ -58,9 +65,11 @@ public class BaseEntity {
      * setter优先级和fill策略优先级，是在MetaObjectHandler中自己手动实现的。
      **/
     @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @ApiModelProperty(hidden = true)
     private Date createTime;
 
     @TableField(value = "update_time", update = "now()", fill = FieldFill.INSERT)
+    @ApiModelProperty(hidden = true)
     private Date updateTime;
 
     /**

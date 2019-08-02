@@ -1,7 +1,9 @@
 package com.xx.xchat.exception;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.xx.xchat.utils.BaseResp;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.dao.DuplicateKeyException;
@@ -20,6 +22,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author xieyaqi
@@ -81,19 +84,20 @@ public class XExceptionHandler extends ResponseEntityExceptionHandler{
     }
 
     private String buildMessages(BindingResult result) {
-        StringBuilder resultBuilder = new StringBuilder();
-
         List<ObjectError> errors = result.getAllErrors();
-        if (errors != null && errors.size() > 0) {
-            for (ObjectError error : errors) {
-                if (error instanceof FieldError) {
-                    FieldError fieldError = (FieldError) error;
-                    String fieldName = fieldError.getField();
-                    String fieldErrMsg = fieldError.getDefaultMessage();
-                    resultBuilder.append(fieldName).append(" ").append(fieldErrMsg).append(";  ");
-                }
-            }
+
+        String resultString = null;
+        if (CollectionUtils.isNotEmpty(errors)) {
+            resultString = errors.stream()
+                    .filter(error -> error instanceof FieldError)
+                    .map(error -> {
+                        FieldError fieldError = (FieldError) error;
+                        String fieldName = fieldError.getField();
+                        String fieldErrMsg = fieldError.getDefaultMessage();
+                        return fieldName + fieldErrMsg;
+                    }).collect(Collectors.joining(";  "));
         }
-        return resultBuilder.toString();
+
+        return resultString;
     }
 }

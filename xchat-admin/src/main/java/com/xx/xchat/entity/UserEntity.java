@@ -61,7 +61,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     @ApiModelProperty("部门编号")
     private Integer departmentId;
 
-    @JsonIgnore
+    @ApiModelProperty("状态 1:正常 2:禁用")
     private StateEnum state;
 
     @JsonIgnore
