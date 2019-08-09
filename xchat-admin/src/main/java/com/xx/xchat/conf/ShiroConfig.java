@@ -100,11 +100,13 @@ public class ShiroConfig {
      * @return DefaultWebSessionManager
      */
     @Bean
-    public DefaultWebSessionManager sessionManager() {
+    public DefaultWebSessionManager sessionManager(@Value("${shiro.globalSessionTimeout:3600}") long globalSessionTimeout) {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        // 是否开启会话验证器，默认是开启的；
+        // 是否开启会话验证器，默认是开启的;
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionIdUrlRewritingEnabled(false);
+        sessionManager.setSessionValidationInterval(globalSessionTimeout * 1000);
+        sessionManager.setGlobalSessionTimeout(globalSessionTimeout * 1000);
         sessionManager.setSessionDAO(redisSessionDAO());
         return sessionManager;
     }
