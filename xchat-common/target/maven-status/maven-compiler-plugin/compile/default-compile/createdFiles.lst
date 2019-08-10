@@ -1,0 +1,6 @@
+com\xx\xchat\conf\MybatisPlusConfig.class
+com\xx\xchat\enums\StateEnum.class
+com\xx\xchat\conf\ModelMetaObjectHandler.class
+com\xx\xchat\conf\SwaggerConfig.class
+com\xx\xchat\enums\MenuTypeEnum.class
+com\xx\xchat\base\BaseEntity.class
