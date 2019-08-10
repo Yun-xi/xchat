@@ -1,6 +1,9 @@
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\conf\SwaggerConfig.java
-D:\xchat\xchat-common\src\main\java\com\xx\xchat\enums\MenuTypeEnum.java
-D:\xchat\xchat-common\src\main\java\com\xx\xchat\enums\StateEnum.java
+D:\xchat\xchat-common\src\main\java\com\xx\xchat\exception\XException.java
+D:\xchat\xchat-common\src\main\java\com\xx\xchat\utils\BaseResp.java
+D:\xchat\xchat-common\src\main\java\com\xx\xchat\exception\XExceptionHandler.java
+D:\xchat\xchat-common\src\main\java\com\xx\xchat\enums\ErrorEnum.java
+D:\xchat\xchat-common\src\main\java\com\xx\xchat\utils\Constants.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\conf\ModelMetaObjectHandler.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\base\BaseEntity.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\conf\MybatisPlusConfig.java
