@@ -30,5 +30,4 @@ build/
 ### VS Code ###
 .vscode/
 
-# xchat-admin-1.0.0.jar 除外
-!xchat-admin-1.0.0.jar
+!*.jar
