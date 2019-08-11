@@ -31,4 +31,4 @@ build/
 .vscode/
 
 # xchat-admin-1.0.0.jar 除外
-!xchat-admin-1.0.0.jar
+!xchat-admin/target/xchat-admin.jar
