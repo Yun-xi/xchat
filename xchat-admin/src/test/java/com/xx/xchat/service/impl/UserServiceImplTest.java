@@ -52,7 +52,7 @@ public class UserServiceImplTest extends ApplicationTests {
         UserEntity userEntity = new UserEntity()
                 .setName("admin")
                 .setPhone("17327873083")
-                .setMail("987159036@qq.com")
+                .setMail("xieyaqi11@gmail.com")
                 .setPassword("123456")
                 .setState(StateEnum.NORMAL)
                 .setRoleIds(Collections.singletonList(1));

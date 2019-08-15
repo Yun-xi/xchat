@@ -3,7 +3,7 @@ package com.xx.xchat.utils;
 /**
  * 常量
  * @author xieyaqi
- * @mail 987159036@qq.com
+ * @mail xieyaqi11@gmail.com
  * @date 2019-07-30 16:03
  */
 public class Constants {

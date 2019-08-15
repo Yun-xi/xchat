@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author xieyaqi
- * @mail 987159036@qq.com
+ * @mail xieyaqi11@gmail.com
  * @date 2019-07-31 18:00
  */
 @Slf4j

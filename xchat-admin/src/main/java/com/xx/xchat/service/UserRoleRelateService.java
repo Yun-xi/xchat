@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author xieyaqi
- * @mail 987159036@qq.com
+ * @mail xieyaqi11@gmail.com
  * @date 2019-07-30 13:39
  */
 public interface UserRoleRelateService extends IService<UserRoleRelateEntity> {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author xieyaqi
- * @mail 987159036@qq.com
+ * @mail xieyaqi11@gmail.com
  * @date 2019-07-30 13:50
  */
 @Service

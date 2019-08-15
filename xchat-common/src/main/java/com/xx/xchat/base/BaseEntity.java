@@ -4,15 +4,19 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xx.xchat.validator.AddGroup;
+import com.xx.xchat.validator.UpdateGroup;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author xieyaqi
- * @mail 987159036@qq.com
+ * @mail xieyaqi11@gmail.com
  * @date 2019-07-29 11:08
  */
 @Data
@@ -31,6 +35,8 @@ public class BaseEntity implements Serializable {
      *
      */
     @TableId(value = "id", type = IdType.AUTO)
+    @NotBlank(message = "主键不可为空", groups = UpdateGroup.class)
+    @Null(message = "主键必须为空", groups = AddGroup.class)
     private Integer id;
 
     /**

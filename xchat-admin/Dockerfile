@@ -1,6 +1,6 @@
 FROM java:8
 
-LABEL author="XX <987159036@qq.com>"
+LABEL author="XX <xieyaqi11@gmail.com>"
 
 EXPOSE 8080
 

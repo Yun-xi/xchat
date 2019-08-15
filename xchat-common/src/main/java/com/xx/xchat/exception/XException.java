@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * @author xieyaqi
- * @mail 987159036@qq.com
+ * @mail xieyaqi11@gmail.com
  * @date 2019-07-31 17:31
  */
 @Getter

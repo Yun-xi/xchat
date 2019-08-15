@@ -15,7 +15,7 @@ import static com.xx.xchat.utils.Constants.Shiro.hashIterations;
 
 /**
  * @author xieyaqi
- * @mail 987159036@qq.com
+ * @mail xieyaqi11@gmail.com
  * @date 2019-07-27 17:21
  */
 @Service
@@ -38,4 +38,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         // 保存用户与角色关联关系
         userRoleRelateService.saveUserRoleRelate(userEntity.getId(), userEntity.getRoleIds());
     }
+
+    @Override
+    public void updateUser(UserEntity userEntity) {
+        this.updateById(userEntity);
+
+        // 保存用户与角色关联关系
+        userRoleRelateService.saveUserRoleRelate(userEntity.getId(), userEntity.getRoleIds());
+    }
+
+
 }

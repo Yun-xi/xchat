@@ -5,4 +5,6 @@ import com.xx.xchat.entity.UserEntity;
 
 public interface UserService extends IService<UserEntity> {
     void saveUser(UserEntity userEntity);
+
+    void updateUser(UserEntity userEntity);
 }

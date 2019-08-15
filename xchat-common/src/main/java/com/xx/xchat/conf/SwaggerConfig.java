@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author xieyaqi
- * @mail 987159036@qq.com
+ * @mail xieyaqi11@gmail.com
  * @date 2019-07-27 17:11
  */
 @EnableSwagger2
@@ -42,7 +42,7 @@ public class SwaggerConfig {
                 // 描述
                 .description("基于定位的聊天")
                 // 创建人
-                .contact(new Contact("xieyaqi", "https://github.com/Yun-x", "987159036@qq.com"))
+                .contact(new Contact("xieyaqi", "https://github.com/Yun-x", "xieyaqi11@gmail.com"))
                 // 版本号
                 .version("1.0")
                 .build();
