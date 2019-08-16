@@ -1,5 +1,8 @@
 package com.xx.xchat.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xx.xchat.dao.UserMapper;
 import com.xx.xchat.entity.UserEntity;
@@ -45,6 +48,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
         // 保存用户与角色关联关系
         userRoleRelateService.saveUserRoleRelate(userEntity.getId(), userEntity.getRoleIds());
+    }
+
+    @Override
+    public boolean updatePassword(Integer userId, String oldPassword, String newPassword) {
+        UserEntity userEntity = new UserEntity().setPassword(newPassword);
+        return this.update(userEntity, new LambdaQueryWrapper<UserEntity>().eq(UserEntity::getId, userId).eq(UserEntity::getPassword, oldPassword));
+
     }
 
 

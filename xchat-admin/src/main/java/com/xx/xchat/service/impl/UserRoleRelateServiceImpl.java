@@ -1,6 +1,9 @@
 package com.xx.xchat.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xx.xchat.dao.UserRoleRelateMapper;
 import com.xx.xchat.entity.UserRoleRelateEntity;
@@ -8,6 +11,7 @@ import com.xx.xchat.service.UserRoleRelateService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -34,5 +38,23 @@ public class UserRoleRelateServiceImpl extends ServiceImpl<UserRoleRelateMapper,
                 new UserRoleRelateEntity().setUserId(userId).setRoleId(roleId)
         ).collect(toList());
         this.saveBatch(userRoleRelateEntities);
+    }
+
+    @Override
+    public List<Integer> getByUserId(Integer userId) {
+        List<UserRoleRelateEntity> userRoleRelateEntities = this.list(Wrappers.<UserRoleRelateEntity>lambdaQuery().eq(UserRoleRelateEntity::getUserId, userId));
+        if (CollectionUtils.isEmpty(userRoleRelateEntities)) {
+            return null;
+        }
+        return userRoleRelateEntities.stream().map(UserRoleRelateEntity::getRoleId).collect(toList());
+    }
+
+    @Override
+    public List<Integer> getByRoleId(Integer roleId) {
+        List<UserRoleRelateEntity> userRoleRelateEntities = this.list(Wrappers.<UserRoleRelateEntity>lambdaQuery().eq(UserRoleRelateEntity::getRoleId, roleId));
+        if (CollectionUtils.isEmpty(userRoleRelateEntities)) {
+            return null;
+        }
+        return userRoleRelateEntities.stream().map(UserRoleRelateEntity::getUserId).collect(toList());
     }
 }

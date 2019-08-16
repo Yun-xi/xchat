@@ -1,6 +1,7 @@
 package com.xx.xchat.controller;
 
 import com.xx.xchat.entity.UserEntity;
+import com.xx.xchat.service.UserRoleRelateService;
 import com.xx.xchat.service.UserService;
 import com.xx.xchat.utils.BaseResp;
 import com.xx.xchat.validator.AddGroup;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.xx.xchat.utils.Constants.Shiro.hashAlgorithmName;
+import static com.xx.xchat.utils.Constants.Shiro.hashIterations;
 
 /**
  * @author xieyaqi
@@ -28,10 +34,13 @@ import java.util.ArrayList;
 @Api(tags = "用户管理")
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRoleRelateService userRoleRelateService;
+
 
     @RequestMapping("/login")
     public String login() {
@@ -96,7 +105,7 @@ public class UserController {
      * @return
      */
     @ApiOperation("新增用户")
-    @PostMapping("/create")
+    @PostMapping("/user")
     @RequiresPermissions("user:create")
     public ResponseEntity<BaseResp<String>> create(@RequestBody @Validated(AddGroup.class) UserEntity userEntity){
         userService.saveUser(userEntity);
@@ -104,7 +113,7 @@ public class UserController {
     }
 
     @ApiOperation("修改用户")
-    @PutMapping("/update")
+    @PutMapping("/user")
     @RequiresPermissions("user:update")
     public ResponseEntity<BaseResp<String>> update(@RequestBody @Validated({UpdateGroup.class}) UserEntity userEntity) {
         userService.updateUser(userEntity);
@@ -112,10 +121,43 @@ public class UserController {
     }
 
     @ApiOperation("删除用户")
-    @DeleteMapping("/delete")
+    @DeleteMapping("/user")
     @RequiresPermissions("user:delete")
-    public ResponseEntity<BaseResp<String>> delete(@RequestBody @NotBlank ArrayList userIds) {
+    public ResponseEntity<BaseResp<String>> delete(@RequestBody @NotBlank(message = "用户编号不能为空") ArrayList userIds) {
         userService.removeByIds(userIds);
         return ResponseEntity.ok(BaseResp.ok("删除成功"));
+    }
+
+    @ApiOperation("修改密码")
+    @PutMapping("/password")
+    @RequiresPermissions("user:update:password")
+    public ResponseEntity<BaseResp<String>> updatePassword(@RequestBody @NotBlank(message = "旧密码不能为空") String oldPassword, @RequestBody @NotBlank(message = "新密码不能为空") String newPassword) {
+        String salt = getUser().getSalt();
+        oldPassword = new SimpleHash(hashAlgorithmName, oldPassword, salt, hashIterations).toString();
+        newPassword = new SimpleHash(hashAlgorithmName, newPassword, salt, hashIterations).toString();
+
+        boolean update = userService.updatePassword(getUserId(), oldPassword, newPassword);
+
+        if (!update) {
+            return ResponseEntity.ok(BaseResp.fail("旧密码有误"));
+        }
+        return ResponseEntity.ok(BaseResp.ok("修改成功"));
+    }
+
+    @ApiOperation("用户详细信息")
+    @GetMapping("/detail/{userId}")
+    @RequiresPermissions("user:detail")
+    public ResponseEntity<BaseResp<UserEntity>> detail(@PathVariable("userId") Integer userId) {
+        UserEntity userEntity = userService.getById(userId);
+        List<Integer> roleIds = userRoleRelateService.getByUserId(getUserId());
+        userEntity.setRoleIds(roleIds);
+        return ResponseEntity.ok(BaseResp.ok(userEntity));
+    }
+
+    @ApiOperation("用户列表")
+    @GetMapping("/list")
+    @RequiresPermissions("user:list")
+    public ResponseEntity<BaseResp> list() {
+        return null;
     }
 }
