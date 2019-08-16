@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author xieyaqi
  * @mail xieyaqi11@gmail.com
@@ -12,7 +14,10 @@ import lombok.Data;
  */
 @Data
 @ApiModel("用户查询")
-public class UserQueryRequest extends BasePageRequest {
+public class UserQueryRequest extends BasePageRequest implements Serializable {
+
+    @ApiModelProperty(hidden = true)
+    private static final long serialVersionUID = 5404786889351132035L;
 
     @ApiModelProperty("用户名")
     private String userName;

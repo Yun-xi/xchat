@@ -63,7 +63,7 @@ public class UserController extends BaseController {
     @ApiOperation("登录")
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<BaseResp> login(String userName, String password) {
+    public ResponseEntity<BaseResp<String>> login(String userName, String password) {
         try{
             Subject subject = SecurityUtils.getSubject();
             UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
@@ -79,7 +79,7 @@ public class UserController extends BaseController {
             return ResponseEntity.ok(BaseResp.fail("账户验证失败"));
         }
 
-        return ResponseEntity.ok(BaseResp.ok());
+        return ResponseEntity.ok(BaseResp.ok("登录成功"));
     }
 
     @ApiOperation("登出")
