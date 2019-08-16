@@ -1,5 +1,8 @@
 package com.xx.xchat.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.xx.xchat.base.BasePageResponse;
+import com.xx.xchat.controller.request.UserQueryRequest;
 import com.xx.xchat.entity.UserEntity;
 import com.xx.xchat.service.UserRoleRelateService;
 import com.xx.xchat.service.UserService;
@@ -157,7 +160,9 @@ public class UserController extends BaseController {
     @ApiOperation("用户列表")
     @GetMapping("/list")
     @RequiresPermissions("user:list")
-    public ResponseEntity<BaseResp> list() {
-        return null;
+    public ResponseEntity<BaseResp<BasePageResponse<UserEntity>>> list(@RequestParam UserQueryRequest userQueryRequest) {
+        IPage<UserEntity> userPage = userService.list(userQueryRequest);
+
+        return ResponseEntity.ok(BaseResp.ok(unPacking(userPage)));
     }
 }

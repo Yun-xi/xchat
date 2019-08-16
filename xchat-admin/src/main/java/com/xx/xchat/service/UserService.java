@@ -1,6 +1,8 @@
 package com.xx.xchat.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xx.xchat.controller.request.UserQueryRequest;
 import com.xx.xchat.entity.UserEntity;
 
 public interface UserService extends IService<UserEntity> {
@@ -23,4 +25,6 @@ public interface UserService extends IService<UserEntity> {
      * @param newPassword   新密码
      */
     boolean updatePassword(Integer userId, String oldPassword, String newPassword);
+
+    IPage<UserEntity> list(UserQueryRequest userQueryRequest);
 }
