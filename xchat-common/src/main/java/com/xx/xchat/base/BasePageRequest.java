@@ -19,4 +19,5 @@ public class BasePageRequest {
      * 当前页数
      */
     private Integer pageNumber = 0;
+
 }
