@@ -31,7 +31,7 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-@TableName("user")
+@TableName("s_user")
 @ApiModel("用户新增、修改")
 public class UserEntity extends BaseEntity implements Serializable {
 
@@ -41,7 +41,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     @ApiModelProperty("用户名")
     @NotBlank(message = "用户名不能为空", groups = AddGroup.class)
     @Null(message = "不可修改用户名", groups = UpdateGroup.class)
-    private String name;
+    private String username;
 
     @ApiModelProperty("邮箱")
     @NotBlank(message = "邮箱不能为空")

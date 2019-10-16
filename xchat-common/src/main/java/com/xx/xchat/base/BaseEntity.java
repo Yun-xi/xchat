@@ -1,9 +1,7 @@
 package com.xx.xchat.base;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xx.xchat.validator.AddGroup;
 import com.xx.xchat.validator.UpdateGroup;
 import io.swagger.annotations.ApiModelProperty;

@@ -15,6 +15,15 @@
     <description>xchat-netty</description>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.xx</groupId>
+            <artifactId>xchat-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
