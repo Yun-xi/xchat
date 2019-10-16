@@ -46,6 +46,7 @@ public class UserRoleRelateServiceImpl extends ServiceImpl<UserRoleRelateMapper,
         if (CollectionUtils.isEmpty(userRoleRelateEntities)) {
             return null;
         }
+
         return userRoleRelateEntities.stream().map(UserRoleRelateEntity::getRoleId).collect(toList());
     }
 
@@ -55,6 +56,7 @@ public class UserRoleRelateServiceImpl extends ServiceImpl<UserRoleRelateMapper,
         if (CollectionUtils.isEmpty(userRoleRelateEntities)) {
             return null;
         }
+
         return userRoleRelateEntities.stream().map(UserRoleRelateEntity::getUserId).collect(toList());
     }
 }

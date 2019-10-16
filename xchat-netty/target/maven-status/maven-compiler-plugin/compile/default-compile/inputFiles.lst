@@ -1,1 +1,17 @@
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\dao\ChatMsgMapper.java
 D:\xchat\xchat-netty\src\main\java\com\xx\xchat\XchatNettyApplication.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\impl\ChatMsgServiceImpl.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\FriendsRequestService.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\entity\UserEntity.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\FriendsService.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\impl\FriendsRequestServiceImpl.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\impl\UserServiceImpl.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\dao\UserMapper.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\ChatMsgService.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\impl\FriendsServiceImpl.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\dao\FriendsMapper.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\UserService.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\dao\FriendsRequestMapper.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\entity\ChatMsgEntity.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\entity\FriendsRequestEntity.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\entity\FriendsEntity.java

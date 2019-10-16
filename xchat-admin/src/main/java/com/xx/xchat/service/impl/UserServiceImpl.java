@@ -72,7 +72,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                 .eq(null != departmentId, UserEntity::getDepartmentId, departmentId)
                 .eq(StringUtils.isNotBlank(mail), UserEntity::getMail, mail)
                 .eq(StringUtils.isNotBlank(phone), UserEntity::getPhone, phone)
-                .like(StringUtils.isNotBlank(userName), UserEntity::getName, userName);
+                .like(StringUtils.isNotBlank(userName), UserEntity::getUsername, userName);
 
         return this.page(page, lambdaQueryWrapper);
     }
