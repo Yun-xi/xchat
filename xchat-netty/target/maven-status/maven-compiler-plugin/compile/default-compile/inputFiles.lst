@@ -12,6 +12,7 @@ D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\impl\FriendsServiceImpl.
 D:\xchat\xchat-netty\src\main\java\com\xx\xchat\dao\FriendsMapper.java
 D:\xchat\xchat-netty\src\main\java\com\xx\xchat\service\UserService.java
 D:\xchat\xchat-netty\src\main\java\com\xx\xchat\dao\FriendsRequestMapper.java
+D:\xchat\xchat-netty\src\main\java\com\xx\xchat\controller\UserController.java
 D:\xchat\xchat-netty\src\main\java\com\xx\xchat\entity\ChatMsgEntity.java
 D:\xchat\xchat-netty\src\main\java\com\xx\xchat\entity\FriendsRequestEntity.java
 D:\xchat\xchat-netty\src\main\java\com\xx\xchat\entity\FriendsEntity.java
