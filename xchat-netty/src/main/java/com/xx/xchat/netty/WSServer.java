@@ -17,26 +17,34 @@ import java.net.InetSocketAddress;
 @Component
 public class WSServer {
 
+    private EventLoopGroup bossGroup;
+    private EventLoopGroup workerGroup;
+    private ServerBootstrap serverBootstrap;
+    private ChannelFuture channelFuture;
+
+
     private static class SingletionWSServer{
-        static final WSServer
+        static final WSServer instance = new WSServer();
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-
-        try {
-            ServerBootstrap serverBootstrap = new ServerBootstrap();
-            serverBootstrap.group(bossGroup, workerGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new WebSocketChannelInitializer());
-
-            ChannelFuture channelFuture = serverBootstrap.bind(new InetSocketAddress(8899)).sync();
-            channelFuture.channel().closeFuture().sync();
-        } finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
-        }
+    public static WSServer getInstance() {
+        return SingletionWSServer.instance;
     }
+
+    public WSServer() {
+        bossGroup = new NioEventLoopGroup();
+        workerGroup = new NioEventLoopGroup();
+        serverBootstrap = new ServerBootstrap();
+        serverBootstrap.group(bossGroup, workerGroup)
+                .channel(NioServerSocketChannel.class)
+                .handler(new LoggingHandler(LogLevel.INFO))
+                .childHandler(new WebSocketChannelInitializer());
+    }
+
+    public void start() {
+        this.channelFuture = serverBootstrap.bind(8899);
+        System.err.println("netty websocket server 启动完毕..");
+    }
+
+
 }
