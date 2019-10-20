@@ -1,5 +1,9 @@
 package com.xx.xchat.netty;
 
+import com.xx.xchat.enums.MsgActionEnum;
+import com.xx.xchat.netty.domain.ChatMsg;
+import com.xx.xchat.netty.domain.DataContent;
+import com.xx.xchat.utils.JsonUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -17,14 +21,35 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
-        System.out.println("收到消息: " + msg.text());
+        // 1.获取客户端传输过来的消息
+        String content = msg.text();
+        DataContent dataContent = JsonUtils.jsonToPojo(content, DataContent.class);
+        Integer action = dataContent.getAction();
 
-        clients.forEach(channel ->
-            channel.writeAndFlush(new TextWebSocketFrame("服务器时间: " + LocalDate.now()))
-        );
-        // 这个方法和上面的for循环是一致的
-//        clients.writeAndFlush(new TextWebSocketFrame("服务器时间: " + LocalDate.now()));
-//        ctx.channel().writeAndFlush(new TextWebSocketFrame("服务器时间: " + LocalDate.now()));
+        Channel currentChannel = ctx.channel();
+
+        // 2.判断消息类型，根据不同的类型来处理不同的业务
+        // 2.1 当websocket第一次open的时候，初始化channel，把用户的channel和userId关联起来
+        // 2.2 聊天类型的消息，把聊天记录保存到数据库，同时标记消息的签收状态【未签收】
+        // 2.3 签收消息类型，针对具体的消息进行签收，修改数据库中对应的消息的签收状态【已签收】
+        // 2.4 心跳类型的消息
+        if (action == MsgActionEnum.CONNECT.type) {
+            String senderId = dataContent.getChatMsg().getSenderId();
+            UserChannelRel.put(senderId, currentChannel);
+        } else if (action == MsgActionEnum.CHAT.type) {
+            ChatMsg chatMsg = dataContent.getChatMsg();
+            String msgText = chatMsg.getMsg();
+            String receiverId = chatMsg.getReceiverId();
+            String senderId = chatMsg.getSenderId();
+
+            // 保存消息到数据库，并且标记为【未签收】
+        } else if (action == MsgActionEnum.SIGNED.type) {
+
+        } else if (action == MsgActionEnum.KEEPALIVE.type) {
+
+        }
+
+
     }
 
     /**
@@ -52,5 +77,6 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         System.out.println("异常发生");
         ctx.close();
+        clients.remove(ctx.channel());
     }
 }
