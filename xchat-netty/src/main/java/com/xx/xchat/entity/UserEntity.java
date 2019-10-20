@@ -12,7 +12,10 @@ import com.xx.xchat.validator.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
@@ -26,7 +29,10 @@ import java.io.Serializable;
  * @date 2019-10-16 15:45
  */
 @Data
+@Builder
 @Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("n_user")
 @ApiModel("用户新增、修改")
 public class UserEntity extends BaseEntity implements Serializable {
@@ -42,7 +48,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     @ApiModelProperty("密码")
     @NotBlank(message = "密码不能为空", groups = AddGroup.class)
     @Size(min = 6, message = "密码不能少于6位", groups = AddGroup.class)
-    @Null(message = "当前不允许修改密码，请到修改密码处进行修改", groups = AddGroup.class)
+    @Null(message = "当前不允许修改密码，请到修改密码处进行修改", groups = UpdateGroup.class)
     private String password;
 
     @JsonIgnore

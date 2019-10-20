@@ -51,7 +51,7 @@
 				<div class="wrap-login100 p-t-85 p-b-20">
 					<form id="userform">
 						<span class="login100-form-title p-b-70">
-							<h5>XChat</h5>
+							<h5>Netty 实战</h5>
 						</span>
 						<span class="login100-form-avatar">
 							<img id="img_login_face" src="css/registLogin/arrow.jpg" alt="风间影月">
@@ -68,7 +68,7 @@
 						</div>
 						<div class="container-login100-form-btn">
 							<button type="submit" id="registOrLogin" class="login100-form-btn">
-								登录/注册
+								登录/注册1
 							</button>
 						</div>
 					</form>
@@ -88,11 +88,11 @@
 					mui.openWindow("index.html", "index.html");
 				}
 				
-				var userform = document.getElementById("userform");
-				var username = document.getElementById("username");
-				var txt_password = document.getElementById("txt_password");
-				
 				userform.addEventListener("submit", function(e){
+					var userform = document.getElementById("userform");
+					var username = document.getElementById("username");
+					var txt_password = document.getElementById("txt_password");
+					
 					// 判断用户名是否为空，如果为空则让其获得焦点
 					if (!app.isNotNull(username.value)) {
 						// 获取焦点
@@ -111,9 +111,10 @@
 						}
 						
 						// 获取每台手机的唯一cid
-						var cid = plus.push.getClientInfo().clientid;
+						// var cid = plus.push.getClientInfo().clientid;
+						var cid = 0123;
 						// 与后端联调
-						mui.ajax(app.serverUrl + "/u/registOrLogin",{
+						mui.ajax("http://192.168.0.104:8082/login/or/register",{
 							data:{
 								username:username.value,
 								password:txt_password.value,
@@ -148,6 +149,8 @@
 					
 					// 阻止默认时间，阻止默认表单提交
 					e.preventDefault();
+					
+					// cropper-master 裁剪图片插件
 				});
 			})
 			

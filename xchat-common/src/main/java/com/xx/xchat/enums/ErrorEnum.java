@@ -9,7 +9,8 @@ public enum ErrorEnum {
 
     SYSTEM_ERROR(1000, "系统异常"),
     ARGS_IS_EMPTY(1001, "参数为空"),
-    PASSWORD_IS_ERROR(2000, "参数为空");
+    PASSWORD_IS_ERROR(2000, "参数为空"),
+    REGISTER_FILED (2001, "注册失败");
 
     private final Integer errCode;
     private final String errMessage;

@@ -5,5 +5,5 @@ import com.xx.xchat.entity.UserEntity;
 import com.xx.xchat.exception.XException;
 
 public interface UserService extends IService<UserEntity> {
-    String loginOrRegister(String username, String password) throws XException;
+    Integer loginOrRegister(String username, String password, String cid) throws XException;
 }

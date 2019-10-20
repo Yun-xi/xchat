@@ -9,6 +9,7 @@ import com.xx.xchat.entity.UserEntity;
 import com.xx.xchat.enums.ErrorEnum;
 import com.xx.xchat.exception.XException;
 import com.xx.xchat.service.UserService;
+import com.xx.xchat.utils.JwtTokenUtil;
 import com.xx.xchat.utils.MD5Util;
 import com.xx.xchat.validator.AddGroup;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.util.UUID;
 
 /**
  * @author xieyaqi
@@ -26,7 +28,7 @@ import javax.validation.constraints.Size;
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
 
     @Override
-    public String loginOrRegister(String username, String password) throws XException {
+    public Integer loginOrRegister(String username, String password, String cid) throws XException {
 
         UserEntity userEntity = this.getOne(Wrappers.<UserEntity>lambdaQuery().eq(UserEntity::getUsername, username));
         boolean usernameIsExist = (null != userEntity);
@@ -42,12 +44,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             }
         } else {
             // 注册
+            String salt = UUID.randomUUID().toString();
+            String md5Password = MD5Util.encrypt(password + salt);
+
+            userEntity = UserEntity.builder().username(username).password(md5Password).salt(salt).cid(cid).build();
+            boolean registerResult = this.save(userEntity);
+            if (registerResult) {
+                userEntity = this.getOne(Wrappers.<UserEntity>lambdaQuery().eq(UserEntity::getUsername, username));
+            } else {
+                throw new XException(ErrorEnum.REGISTER_FILED, "注册失败");
+            }
         }
 
-    }
-
-    public void s(String a) {
-
+        return userEntity.getId();
     }
 
 }

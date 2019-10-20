@@ -3,17 +3,17 @@ window.app = {
 	/**
 	 * netty服务后端发布的url地址
 	 */
-	nettyServerUrl: 'ws://localhost:8899/ws',
+	nettyServerUrl: 'ws://192.168.0.104:8899/ws',
 	
 	/**
 	 * 后端服务发布的url地址
 	 */
-	serverUrl: 'http://localhost:8080',
+	serverUrl: 'http://192.168.0.104:8082',
 	
 	/**
 	 * 图片服务器的url地址
 	 */
-	imgServerUrl: 'http://localhost:88/imooc/',
+	imgServerUrl: 'http://192.168.0.104:88/imooc/',
 	
 	/**
 	 * 判断字符串是否为空
