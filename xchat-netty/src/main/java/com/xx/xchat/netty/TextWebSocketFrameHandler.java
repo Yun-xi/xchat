@@ -3,7 +3,9 @@ package com.xx.xchat.netty;
 import com.xx.xchat.enums.MsgActionEnum;
 import com.xx.xchat.netty.domain.ChatMsg;
 import com.xx.xchat.netty.domain.DataContent;
+import com.xx.xchat.service.UserService;
 import com.xx.xchat.utils.JsonUtils;
+import com.xx.xchat.utils.SpringUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -43,6 +45,8 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
             String senderId = chatMsg.getSenderId();
 
             // 保存消息到数据库，并且标记为【未签收】
+            UserService userService = (UserService) SpringUtil.getBean("userServiceImpl");
+
         } else if (action == MsgActionEnum.SIGNED.type) {
 
         } else if (action == MsgActionEnum.KEEPALIVE.type) {
