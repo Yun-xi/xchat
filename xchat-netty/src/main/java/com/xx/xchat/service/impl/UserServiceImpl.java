@@ -2,6 +2,7 @@ package com.xx.xchat.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xx.xchat.dao.ChatMsgMapper;
 import com.xx.xchat.dao.UserMapper;
 import com.xx.xchat.entity.ChatMsgEntity;
 import com.xx.xchat.entity.UserEntity;
@@ -15,7 +16,9 @@ import com.xx.xchat.utils.MD5Util;
 import com.xx.xchat.utils.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,7 +31,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Autowired
     private ChatMsgService chatMsgService;
-
+    @Autowired
+    private ChatMsgMapper chatMsgMapper;
+    @Autowired
+    private ChatMsgService chatMsgService;
 
     @Override
     public String loginOrRegister(String username, String password, String cid) throws XException {
@@ -63,14 +69,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
+    @Transactional
     public String saveMsg(ChatMsg chatMsg) {
         String primaryId = SnowflakeIdWorker.getStringId();
         ChatMsgEntity chatMsgEntity =
-                new ChatMsgEntity().setSendUserId(chatMsg.getSenderId()).setAcceptUserId(chatMsg.getReceiverId()).setMsg(chatMsg.getMsg()).setSignFlag(MsgSignFlagEnum.NORMAL);
+                new ChatMsgEntity().setSendUserId(chatMsg.getSenderId()).setAcceptUserId(chatMsg.getReceiverId()).setMsg(chatMsg.getMsg()).setSignFlag(MsgSignFlagEnum.NOSIGN);
         chatMsgEntity.setId(primaryId);
 
         chatMsgService.save(chatMsgEntity);
         return primaryId;
+    }
+
+    @Override
+    public void updateMsgSigned(List<String> msgIdList) {
+        List<ChatMsgEntity> chatMsgEntityList = chatMsgMapper.selectBatchIds(msgIdList);
+        chatMsgEntityList.stream().forEach(chatMsgEntity -> chatMsgEntity.setSignFlag(MsgSignFlagEnum.ALREADY));
+
+        chatMsgService.updateBatchById(chatMsgEntityList);
     }
 
 }

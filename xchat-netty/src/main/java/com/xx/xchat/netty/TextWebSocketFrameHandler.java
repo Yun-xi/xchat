@@ -13,8 +13,11 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
@@ -31,14 +34,12 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
         Channel currentChannel = ctx.channel();
 
         // 2.判断消息类型，根据不同的类型来处理不同的业务
-        // 2.1 当websocket第一次open的时候，初始化channel，把用户的channel和userId关联起来
-        // 2.2 聊天类型的消息，把聊天记录保存到数据库，同时标记消息的签收状态【未签收】
-        // 2.3 签收消息类型，针对具体的消息进行签收，修改数据库中对应的消息的签收状态【已签收】
-        // 2.4 心跳类型的消息
         if (action == MsgActionEnum.CONNECT.type) {
+            // 2.1 当websocket第一次open的时候，初始化channel，把用户的channel和userId关联起来
             String senderId = dataContent.getChatMsg().getSenderId();
             UserChannelRel.put(senderId, currentChannel);
         } else if (action == MsgActionEnum.CHAT.type) {
+            // 2.2 聊天类型的消息，把聊天记录保存到数据库，同时标记消息的签收状态【未签收】
             ChatMsg chatMsg = dataContent.getChatMsg();
             String msgText = chatMsg.getMsg();
             String receiverId = chatMsg.getReceiverId();
@@ -46,10 +47,46 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
 
             // 保存消息到数据库，并且标记为【未签收】
             UserService userService = (UserService) SpringUtil.getBean("userServiceImpl");
-//            userService.save()
-        } else if (action == MsgActionEnum.SIGNED.type) {
+            String msgId = userService.saveMsg(chatMsg);
+            chatMsg.setMsgId(msgId);
 
+            // 发送消息
+            // 从全局用户Channel关系中获取接收方的channel
+            Channel receiverChannel = UserChannelRel.get(receiverId);
+            if (receiverChannel == null) {
+                // TODO channel为空代表用户离线，推送消息(JPush，个推， 小米推送)
+
+            } else {
+                // 当receiverChannel不为空的时候，从ChannelGroup去查找对应的channel是否存在
+                Channel findChannel = clients.find(receiverChannel.id());
+                if (findChannel != null) {
+                    // 用户在线
+                    receiverChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.objectToJson(chatMsg)));
+                } else {
+                    // TODO 用户离线，推送
+                }
+            }
+        } else if (action == MsgActionEnum.SIGNED.type) {
+            // 2.3 签收消息类型，针对具体的消息进行签收，修改数据库中对应的消息的签收状态【已签收】
+            UserService userService = (UserService) SpringUtil.getBean("userServiceImpl");
+            // 扩展字段在signed类型的消息中，代表需要去签收的消息id，逗号分隔
+            String msgIdStr = dataContent.getExtand();
+            String[] msgIds = msgIdStr.split(",");
+
+            List<String> msgIdList = new ArrayList<>();
+            for(String msgId : msgIds) {
+                if (StringUtils.isNotBlank(msgId)) {
+                    msgIdList.add(msgId);
+                }
+            }
+
+            System.out.println(msgIdList.toString());
+
+            if (msgIdList != null && !msgIdList.isEmpty() && msgIdList.size() > 0) {
+                userService.updateMsgSigned(msgIdList);
+            }
         } else if (action == MsgActionEnum.KEEPALIVE.type) {
+            // 2.4 心跳类型的消息
 
         }
 

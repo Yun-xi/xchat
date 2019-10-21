@@ -7,9 +7,9 @@ import java.util.stream.Stream;
 
 public enum MsgSignFlagEnum implements IEnum<Integer> {
 
-    NORMAL(0, "未签收"),
+    NOSIGN(0, "未签收"),
 
-    BAN(1, "已签收");
+    ALREADY(1, "已签收");
 
     private final Integer value;
     private final String desc;
