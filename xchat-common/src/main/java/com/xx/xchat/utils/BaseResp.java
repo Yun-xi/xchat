@@ -52,6 +52,18 @@ public class BaseResp<T> {
     /**
      * fail
      *
+     * @param failMsg  错误消息
+     */
+    public static BaseResp fail(String failMsg) {
+        return BaseResp.builder()
+                .retCode(Constants.RetCode.FAIL)
+                .retMsg(failMsg)
+                .build();
+    }
+
+    /**
+     * fail
+     *
      * @param data 响应内容
      * @param <T>  响应内容类型
      */

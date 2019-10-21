@@ -38,6 +38,12 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
             // 2.1 当websocket第一次open的时候，初始化channel，把用户的channel和userId关联起来
             String senderId = dataContent.getChatMsg().getSenderId();
             UserChannelRel.put(senderId, currentChannel);
+
+            // TODO 测试
+            for (Channel c : clients) {
+                System.out.println(c.id().asLongText());
+            }
+            UserChannelRel.output();
         } else if (action == MsgActionEnum.CHAT.type) {
             // 2.2 聊天类型的消息，把聊天记录保存到数据库，同时标记消息的签收状态【未签收】
             ChatMsg chatMsg = dataContent.getChatMsg();
