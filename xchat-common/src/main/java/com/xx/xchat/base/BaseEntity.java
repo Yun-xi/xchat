@@ -6,6 +6,7 @@ import com.xx.xchat.validator.AddGroup;
 import com.xx.xchat.validator.UpdateGroup;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
@@ -18,6 +19,7 @@ import java.util.Date;
  * @date 2019-07-29 11:08
  */
 @Data
+@Accessors(chain = true)
 public class BaseEntity implements Serializable {
 
     @ApiModelProperty(hidden = true)
@@ -32,10 +34,10 @@ public class BaseEntity implements Serializable {
      * ID_WORKER_STR	    分布式全局唯一ID 字符串类型
      *
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.INPUT)
     @NotBlank(message = "主键不可为空", groups = UpdateGroup.class)
     @Null(message = "主键必须为空", groups = AddGroup.class)
-    private Integer id;
+    private String id;
 
     /**
      * 更新日期<br>

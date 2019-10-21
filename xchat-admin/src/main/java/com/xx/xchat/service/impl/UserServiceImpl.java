@@ -54,7 +54,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public boolean updatePassword(Integer userId, String oldPassword, String newPassword) {
+    public boolean updatePassword(String userId, String oldPassword, String newPassword) {
         UserEntity userEntity = new UserEntity().setPassword(newPassword);
         return this.update(userEntity, new LambdaQueryWrapper<UserEntity>().eq(UserEntity::getId, userId).eq(UserEntity::getPassword, oldPassword));
 
@@ -62,7 +62,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Override
     public IPage<UserEntity> list(UserQueryRequest userQueryRequest) {
-        Integer departmentId = userQueryRequest.getDepartmentId();
+        String departmentId = userQueryRequest.getDepartmentId();
         String mail = userQueryRequest.getMail();
         String phone = userQueryRequest.getPhone();
         String userName = userQueryRequest.getUserName();

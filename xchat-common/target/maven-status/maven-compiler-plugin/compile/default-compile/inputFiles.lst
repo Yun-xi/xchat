@@ -8,6 +8,7 @@ D:\xchat\xchat-common\src\main\java\com\xx\xchat\utils\Constants.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\conf\ModelMetaObjectHandler.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\conf\MybatisPlusConfig.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\base\BasePageResponse.java
+D:\xchat\xchat-common\src\main\java\com\xx\xchat\utils\SnowflakeIdWorker.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\validator\AddGroup.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\validator\UpdateGroup.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\base\BaseEntity.java

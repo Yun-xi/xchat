@@ -24,7 +24,7 @@ public interface UserService extends IService<UserEntity> {
      * @param oldPassword   旧密码
      * @param newPassword   新密码
      */
-    boolean updatePassword(Integer userId, String oldPassword, String newPassword);
+    boolean updatePassword(String userId, String oldPassword, String newPassword);
 
     IPage<UserEntity> list(UserQueryRequest userQueryRequest);
 }

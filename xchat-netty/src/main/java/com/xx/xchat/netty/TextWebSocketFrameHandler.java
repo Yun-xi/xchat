@@ -46,7 +46,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
 
             // 保存消息到数据库，并且标记为【未签收】
             UserService userService = (UserService) SpringUtil.getBean("userServiceImpl");
-
+//            userService.save()
         } else if (action == MsgActionEnum.SIGNED.type) {
 
         } else if (action == MsgActionEnum.KEEPALIVE.type) {

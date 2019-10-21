@@ -1,22 +1,21 @@
 package com.xx.xchat.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xx.xchat.dao.UserMapper;
+import com.xx.xchat.entity.ChatMsgEntity;
 import com.xx.xchat.entity.UserEntity;
+import com.xx.xchat.entity.enums.MsgSignFlagEnum;
 import com.xx.xchat.enums.ErrorEnum;
 import com.xx.xchat.exception.XException;
+import com.xx.xchat.netty.domain.ChatMsg;
+import com.xx.xchat.service.ChatMsgService;
 import com.xx.xchat.service.UserService;
-import com.xx.xchat.utils.JwtTokenUtil;
 import com.xx.xchat.utils.MD5Util;
-import com.xx.xchat.validator.AddGroup;
+import com.xx.xchat.utils.SnowflakeIdWorker;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
 import java.util.UUID;
 
 /**
@@ -27,8 +26,12 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
 
+    @Autowired
+    private ChatMsgService chatMsgService;
+
+
     @Override
-    public Integer loginOrRegister(String username, String password, String cid) throws XException {
+    public String loginOrRegister(String username, String password, String cid) throws XException {
 
         UserEntity userEntity = this.getOne(Wrappers.<UserEntity>lambdaQuery().eq(UserEntity::getUsername, username));
         boolean usernameIsExist = (null != userEntity);
@@ -57,6 +60,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         }
 
         return userEntity.getId();
+    }
+
+    @Override
+    public String saveMsg(ChatMsg chatMsg) {
+        String primaryId = SnowflakeIdWorker.getStringId();
+        ChatMsgEntity chatMsgEntity =
+                new ChatMsgEntity().setSendUserId(chatMsg.getSenderId()).setAcceptUserId(chatMsg.getReceiverId()).setMsg(chatMsg.getMsg()).setSignFlag(MsgSignFlagEnum.NORMAL);
+        chatMsgEntity.setId(primaryId);
+
+        chatMsgService.save(chatMsgEntity);
+        return primaryId;
     }
 
 }

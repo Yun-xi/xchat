@@ -19,8 +19,8 @@ import lombok.experimental.Accessors;
 public class FriendsRequestEntity extends BaseEntity {
 
     @ApiModelProperty("发送方用户编号")
-    private Integer sendUserId;
+    private String sendUserId;
 
     @ApiModelProperty("接收方用户编号")
-    private Integer acceptUserId;
+    private String acceptUserId;
 }

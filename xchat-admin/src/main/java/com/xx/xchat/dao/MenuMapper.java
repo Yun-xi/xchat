@@ -6,5 +6,5 @@ import com.xx.xchat.entity.MenuEntity;
 import java.util.List;
 
 public interface MenuMapper extends BaseMapper<MenuEntity> {
-    List<MenuEntity> findUserPerms(Integer userId);
+    List<MenuEntity> findUserPerms(String userId);
 }

@@ -44,13 +44,13 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         UserEntity user = (UserEntity)principalCollection.getPrimaryPrincipal();
-        Integer userId = user.getId();
+        String userId = user.getId();
 
         // 角色
         List<UserRoleRelateEntity> userRoleRelateEntities = userRoleRelateService.list(new QueryWrapper<UserRoleRelateEntity>().eq("user_id", userId));
         Set<String> roleNameSet = null;
         if (CollectionUtils.isNotEmpty(userRoleRelateEntities)) {
-            Set<Integer> roleIdSet = userRoleRelateEntities.stream().map(UserRoleRelateEntity::getRoleId).collect(toSet());
+            Set<String> roleIdSet = userRoleRelateEntities.stream().map(UserRoleRelateEntity::getRoleId).collect(toSet());
 
             Collection<RoleEntity> roleEntities = roleService.listByIds(roleIdSet);
             roleNameSet = roleEntities.stream().map(RoleEntity::getName).collect(toSet());

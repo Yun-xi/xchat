@@ -29,5 +29,5 @@ public class UserQueryRequest extends BasePageRequest implements Serializable {
     private String mail;
 
     @ApiModelProperty("部门编号")
-    private Integer departmentId;
+    private String departmentId;
 }

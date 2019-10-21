@@ -17,7 +17,7 @@ public class BaseController {
         return (UserEntity)SecurityUtils.getSubject().getPrincipal();
     }
 
-    protected Integer getUserId() {
+    protected String getUserId() {
         return getUser().getId();
     }
 

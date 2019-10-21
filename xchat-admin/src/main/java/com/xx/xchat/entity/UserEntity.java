@@ -64,7 +64,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     private String salt;
 
     @ApiModelProperty("部门编号")
-    private Integer departmentId;
+    private String departmentId;
 
     @ApiModelProperty("状态 1:正常 2:禁用")
     private StateEnum state;
@@ -76,5 +76,5 @@ public class UserEntity extends BaseEntity implements Serializable {
 
     @ApiModelProperty("角色编号数组")
     @TableField(exist = false)
-    private List<Integer> roleIds;
+    private List<String> roleIds;
 }

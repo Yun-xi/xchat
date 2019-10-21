@@ -19,8 +19,8 @@ import lombok.experimental.Accessors;
 public class FriendsEntity extends BaseEntity {
 
     @ApiModelProperty("用户编号")
-    private Integer myUserId;
+    private String myUserId;
 
     @ApiModelProperty("我的好友用户编号")
-    private Integer myFriendUserId;
+    private String myFriendUserId;
 }

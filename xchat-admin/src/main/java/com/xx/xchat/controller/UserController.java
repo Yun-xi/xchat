@@ -150,9 +150,9 @@ public class UserController extends BaseController {
     @ApiOperation("用户详细信息")
     @GetMapping("/detail/{userId}")
     @RequiresPermissions("user:detail")
-    public ResponseEntity<BaseResp<UserEntity>> detail(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<BaseResp<UserEntity>> detail(@PathVariable("userId") String userId) {
         UserEntity userEntity = userService.getById(userId);
-        List<Integer> roleIds = userRoleRelateService.getByUserId(getUserId());
+        List<String> roleIds = userRoleRelateService.getByUserId(getUserId());
         userEntity.setRoleIds(roleIds);
         return ResponseEntity.ok(BaseResp.ok(userEntity));
     }

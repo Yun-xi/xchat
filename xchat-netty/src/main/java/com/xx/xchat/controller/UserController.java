@@ -39,9 +39,9 @@ public class UserController {
         String password = userEntity.getPassword();
         String cid = userEntity.getCid();
 
-        Integer userId = userService.loginOrRegister(username, password, cid);
+        String userId = userService.loginOrRegister(username, password, cid);
         String randomKey = jwtTokenUtil.getRandomKey(6);
-        String jwtToken = jwtTokenUtil.generateToken(userId.toString(), randomKey);
+        String jwtToken = jwtTokenUtil.generateToken(userId, randomKey);
 
         return ResponseEntity.ok(BaseResp.ok(jwtToken));
     }

@@ -3,6 +3,7 @@ package com.xx.xchat.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xx.xchat.base.BaseEntity;
+import com.xx.xchat.entity.enums.MsgSignFlagEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,15 +21,15 @@ import lombok.experimental.Accessors;
 public class ChatMsgEntity extends BaseEntity {
 
     @ApiModelProperty("发送方用户编号")
-    private Integer sendUserId;
+    private String sendUserId;
 
     @ApiModelProperty("接收方用户编号")
-    private Integer acceptUserId;
+    private String acceptUserId;
 
     @ApiModelProperty("消息")
     private String msg;
 
     @ApiModelProperty(hidden = true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Integer signFlag;
+    private MsgSignFlagEnum signFlag;
 }

@@ -25,7 +25,7 @@ import static java.util.stream.Collectors.toList;
 public class UserRoleRelateServiceImpl extends ServiceImpl<UserRoleRelateMapper, UserRoleRelateEntity> implements UserRoleRelateService {
 
     @Override
-    public void saveUserRoleRelate(Integer userId, List<Integer> roleIds) {
+    public void saveUserRoleRelate(String userId, List<String> roleIds) {
         // 先全部删除
         this.remove(new QueryWrapper<UserRoleRelateEntity>().eq("user_id", userId));
 
@@ -41,7 +41,7 @@ public class UserRoleRelateServiceImpl extends ServiceImpl<UserRoleRelateMapper,
     }
 
     @Override
-    public List<Integer> getByUserId(Integer userId) {
+    public List<String> getByUserId(String userId) {
         List<UserRoleRelateEntity> userRoleRelateEntities = this.list(Wrappers.<UserRoleRelateEntity>lambdaQuery().eq(UserRoleRelateEntity::getUserId, userId));
         if (CollectionUtils.isEmpty(userRoleRelateEntities)) {
             return null;
@@ -51,7 +51,7 @@ public class UserRoleRelateServiceImpl extends ServiceImpl<UserRoleRelateMapper,
     }
 
     @Override
-    public List<Integer> getByRoleId(Integer roleId) {
+    public List<String> getByRoleId(String roleId) {
         List<UserRoleRelateEntity> userRoleRelateEntities = this.list(Wrappers.<UserRoleRelateEntity>lambdaQuery().eq(UserRoleRelateEntity::getRoleId, roleId));
         if (CollectionUtils.isEmpty(userRoleRelateEntities)) {
             return null;

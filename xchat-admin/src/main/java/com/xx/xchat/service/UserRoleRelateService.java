@@ -17,19 +17,19 @@ public interface UserRoleRelateService extends IService<UserRoleRelateEntity> {
      * @param userId
      * @param roleIds
      */
-    void saveUserRoleRelate(Integer userId, List<Integer> roleIds);
+    void saveUserRoleRelate(String userId, List<String> roleIds);
 
     /**
      * 根据用户编号获取对应的角色列表
      * @param userId
      * @return
      */
-    List<Integer> getByUserId(Integer userId);
+    List<String> getByUserId(String userId);
 
     /**
      * 查询该角色下的所有用户编号
      * @param roleId
      * @return
      */
-    List<Integer> getByRoleId(Integer roleId);
+    List<String> getByRoleId(String roleId);
 }
