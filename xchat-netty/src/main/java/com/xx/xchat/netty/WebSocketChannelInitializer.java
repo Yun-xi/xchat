@@ -7,6 +7,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class WebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
     @Override
@@ -21,6 +22,16 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
         // 而HttpObjectAggregator就是把HTTP请求的几块聚合在一起
         // maxContentLength就是聚合的最大长度
         pipeline.addLast(new HttpObjectAggregator(8192));
+
+        // ================================ 增加心跳支持 start ================================
+
+        // 针对客户端，如果在1分钟时间内没有向服务端发送读写心跳(ALL)，则主动断开
+        // 如果是读空闲或者写空闲，不处理
+        pipeline.addLast(new IdleStateHandler(2, 4, 6));
+        // 自定义的空闲状态检测
+        pipeline.addLast(new HeartBeatHandler());
+
+        // ================================ 增加心跳支持 end ================================
 
         // ws://server:port/context_path
         // ws://localhost:9999/ws

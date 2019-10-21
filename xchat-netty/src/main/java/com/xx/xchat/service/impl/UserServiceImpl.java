@@ -13,10 +13,9 @@ import com.xx.xchat.entity.enums.SearchFriendsStatusEnum;
 import com.xx.xchat.enums.ErrorEnum;
 import com.xx.xchat.enums.MsgActionEnum;
 import com.xx.xchat.exception.XException;
-import com.xx.xchat.netty.UserChannelRel;
+import com.xx.xchat.netty.domain.UserChannelRel;
 import com.xx.xchat.netty.domain.ChatMsg;
 import com.xx.xchat.netty.domain.DataContent;
-import com.xx.xchat.pojo.vo.FriendRequestVO;
 import com.xx.xchat.service.ChatMsgService;
 import com.xx.xchat.service.FriendsRequestService;
 import com.xx.xchat.service.FriendsService;
@@ -26,13 +25,10 @@ import com.xx.xchat.utils.MD5Util;
 import com.xx.xchat.utils.SnowflakeIdWorker;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.swagger.annotations.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -198,11 +194,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
+    @Transactional
     public void updateMsgSigned(List<String> msgIdList) {
         List<ChatMsgEntity> chatMsgEntityList = chatMsgMapper.selectBatchIds(msgIdList);
         chatMsgEntityList.stream().forEach(chatMsgEntity -> chatMsgEntity.setSignFlag(MsgSignFlagEnum.ALREADY));
 
         chatMsgService.updateBatchById(chatMsgEntityList);
+    }
+
+    @Override
+    @Transactional
+    public List<ChatMsgEntity> getUnReadMsgList(String acceptUserId) {
+        List<ChatMsgEntity> chatMsgEntityList = chatMsgService.list(Wrappers.<ChatMsgEntity>lambdaQuery().eq(ChatMsgEntity::getAcceptUserId, acceptUserId).eq(ChatMsgEntity::getSignFlag, 0));
+        return chatMsgEntityList;
     }
 
 }

@@ -3,6 +3,7 @@ package com.xx.xchat.netty;
 import com.xx.xchat.enums.MsgActionEnum;
 import com.xx.xchat.netty.domain.ChatMsg;
 import com.xx.xchat.netty.domain.DataContent;
+import com.xx.xchat.netty.domain.UserChannelRel;
 import com.xx.xchat.service.UserService;
 import com.xx.xchat.utils.JsonUtils;
 import com.xx.xchat.utils.SpringUtil;
@@ -15,14 +16,13 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.apache.commons.lang3.StringUtils;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     // 用于记录和管理所有客户端的channel
-    private static ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    public static ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
@@ -56,6 +56,9 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
             String msgId = userService.saveMsg(chatMsg);
             chatMsg.setMsgId(msgId);
 
+            DataContent dataContentMsg = new DataContent();
+            dataContentMsg.setChatMsg(chatMsg);
+
             // 发送消息
             // 从全局用户Channel关系中获取接收方的channel
             Channel receiverChannel = UserChannelRel.get(receiverId);
@@ -67,7 +70,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
                 Channel findChannel = clients.find(receiverChannel.id());
                 if (findChannel != null) {
                     // 用户在线
-                    receiverChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.objectToJson(chatMsg)));
+                    receiverChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.objectToJson(dataContentMsg)));
                 } else {
                     // TODO 用户离线，推送
                 }
@@ -93,7 +96,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
             }
         } else if (action == MsgActionEnum.KEEPALIVE.type) {
             // 2.4 心跳类型的消息
-
+            System.out.println("收到来自channel为【" + currentChannel + "】的心跳包");
         }
 
 

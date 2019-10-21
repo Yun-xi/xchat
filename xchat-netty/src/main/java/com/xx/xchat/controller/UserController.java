@@ -1,5 +1,6 @@
 package com.xx.xchat.controller;
 
+import com.xx.xchat.entity.ChatMsgEntity;
 import com.xx.xchat.entity.FriendsEntity;
 import com.xx.xchat.entity.UserEntity;
 import com.xx.xchat.entity.enums.SearchFriendsStatusEnum;
@@ -98,7 +99,7 @@ public class UserController {
     public ResponseEntity<BaseResp> queryFriendRequests(@NotBlank String userId) {
 
         // 1. 查询用户接受到的朋友申请
-        return ResponseEntity.ok(BaseResp.ok(userService.queryFriendRequestList(userId));
+        return ResponseEntity.ok(BaseResp.ok(userService.queryFriendRequestList(userId)));
     }
 
 
@@ -132,5 +133,17 @@ public class UserController {
         List<FriendsEntity> myFirends = userService.queryMyFriends(userId);
 
         return ResponseEntity.ok(BaseResp.ok(myFirends));
+    }
+
+    /**
+     *
+     * @Description: 用户手机端获取未签收的消息列表
+     */
+    @PostMapping("/getUnReadMsgList")
+    public ResponseEntity<BaseResp> getUnReadMsgList(@NotBlank String acceptUserId) {
+        // 查询列表
+        List<ChatMsgEntity> unreadMsgList = userService.getUnReadMsgList(acceptUserId);
+
+        return ResponseEntity.ok(BaseResp.ok(unreadMsgList));
     }
 }
