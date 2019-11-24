@@ -7,6 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
@@ -22,6 +23,8 @@ public class WSServer {
     private ServerBootstrap serverBootstrap;
     private ChannelFuture channelFuture;
 
+    @Value("${netty.port}")
+    private Integer nettyPort;
 
     private static class SingletionWSServer{
         static final WSServer instance = new WSServer();
@@ -42,7 +45,7 @@ public class WSServer {
     }
 
     public void start() {
-        this.channelFuture = serverBootstrap.bind(8899);
+        this.channelFuture = serverBootstrap.bind(nettyPort);
         System.err.println("netty websocket server 启动完毕..");
     }
 

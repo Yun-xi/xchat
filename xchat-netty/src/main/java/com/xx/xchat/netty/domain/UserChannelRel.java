@@ -1,8 +1,8 @@
-package com.xx.xchat.netty.domain;
+package com.xx.xchat.netty;
 
 import io.netty.channel.Channel;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 用户id和channel的关联关系处理
@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class UserChannelRel {
 
-    private static HashMap<String, Channel> manager = new HashMap<>();
+    private static ConcurrentHashMap<String, Channel> manager = new ConcurrentHashMap<>();
 
     public static void put(String senderId, Channel channel) {
         manager.put(senderId, channel);

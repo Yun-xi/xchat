@@ -58,6 +58,12 @@ mybatis-plus:
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 
+jwt:
+  header: Authorization   #http请求头所需要的字段
+  secret: mySecret        #jwt秘钥
+  expiration: 604800      #7天 单位:秒
+  auth-path: auth         #认证请求的路径
+  md5-key: randomKey      #md5加密混淆key
 
 shiro:
   globalSessionTimeout: 3600

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xx</groupId>
         <artifactId>xchat</artifactId>
         <version>1.0.0</version>
     </parent>
-    <groupId>com.xx</groupId>
-    <artifactId>xchat-netty</artifactId>
+    <groupId>com.xxxx</groupId>
+    <artifactId>xchat-route</artifactId>
     <version>1.0.0</version>
-    <name>xchat-netty</name>
-    <description>xchat-netty</description>
+    <name>xchat-route</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -20,17 +19,6 @@
             <groupId>com.xx</groupId>
             <artifactId>xchat-common</artifactId>
             <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.25.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.7.0</version>
         </dependency>
 
         <!-- zookeeper -->
@@ -45,11 +33,16 @@
             <artifactId>curator-recipes</artifactId>
             <version>4.0.0</version>
         </dependency>
+
+        <!-- jwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
     </dependencies>
 
-
     <build>
-        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -57,4 +50,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -9,7 +9,7 @@ import lombok.Getter;
  * @date 2019-07-31 17:31
  */
 @Getter
-public class XException extends Exception{
+public class XException extends RuntimeException{
     /** 错误编码 **/
     private Integer errCode;
     /** 错误信息 **/
