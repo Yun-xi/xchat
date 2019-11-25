@@ -1,5 +1,6 @@
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\conf\SwaggerConfig.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\exception\XException.java
+D:\xchat\xchat-common\src\main\java\com\xx\xchat\utils\route\consistenthash\AbstractConsistentHash.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\base\BasePageRequest.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\utils\BaseResp.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\exception\XExceptionHandler.java
@@ -7,6 +8,7 @@ D:\xchat\xchat-common\src\main\java\com\xx\xchat\enums\ErrorEnum.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\utils\Constants.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\conf\ModelMetaObjectHandler.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\conf\MybatisPlusConfig.java
+D:\xchat\xchat-common\src\main\java\com\xx\xchat\utils\route\consistenthash\TreeMapConsistentHash.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\base\BasePageResponse.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\utils\SnowflakeIdWorker.java
 D:\xchat\xchat-common\src\main\java\com\xx\xchat\validator\AddGroup.java
