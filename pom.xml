@@ -21,6 +21,7 @@
         <module>xchat-netty</module>
         <module>xchat-common</module>
         <module>xchat-message</module>
+        <module>xchat-api</module>
     </modules>
 
     <properties>
