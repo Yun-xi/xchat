@@ -3,7 +3,6 @@ package com.xx.xchat.netty;
 import com.xx.xchat.enums.MsgActionEnum;
 import com.xx.xchat.netty.domain.ChatMsg;
 import com.xx.xchat.netty.domain.DataContent;
-import com.xx.xchat.netty.domain.UserChannelRel;
 import com.xx.xchat.service.UserService;
 import com.xx.xchat.utils.JsonUtils;
 import com.xx.xchat.utils.SpringUtil;
@@ -15,6 +14,7 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +37,13 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
         if (action == MsgActionEnum.CONNECT.type) {
             // 2.1 当websocket第一次open的时候，初始化channel，把用户的channel和userId关联起来
             String senderId = dataContent.getChatMsg().getSenderId();
-            UserChannelRel.put(senderId, currentChannel);
+            com.xx.xchat.netty.UserChannelRel.put(senderId, currentChannel);
 
             // TODO 测试
             for (Channel c : clients) {
                 System.out.println(c.id().asLongText());
             }
-            UserChannelRel.output();
+            com.xx.xchat.netty.UserChannelRel.output();
         } else if (action == MsgActionEnum.CHAT.type) {
             // 2.2 聊天类型的消息，把聊天记录保存到数据库，同时标记消息的签收状态【未签收】
             ChatMsg chatMsg = dataContent.getChatMsg();
@@ -59,9 +59,13 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
             DataContent dataContentMsg = new DataContent();
             dataContentMsg.setChatMsg(chatMsg);
 
+            // TODO 异步保存消息
+            RabbitTemplate rabbitTemplate = SpringUtil.getBean(RabbitTemplate.class);
+            rabbitTemplate.convertAndSend("message", "save", dataContentMsg);
+
             // 发送消息
             // 从全局用户Channel关系中获取接收方的channel
-            Channel receiverChannel = UserChannelRel.get(receiverId);
+            Channel receiverChannel = com.xx.xchat.netty.UserChannelRel.get(receiverId);
             if (receiverChannel == null) {
                 // TODO channel为空代表用户离线，推送消息(JPush，个推， 小米推送)
 
@@ -94,6 +98,10 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
             if (msgIdList != null && !msgIdList.isEmpty() && msgIdList.size() > 0) {
                 userService.updateMsgSigned(msgIdList);
             }
+
+            // TODO 异步签收消息
+            RabbitTemplate rabbitTemplate = SpringUtil.getBean(RabbitTemplate.class);
+            rabbitTemplate.convertAndSend("message", "save", msgIdList);
         } else if (action == MsgActionEnum.KEEPALIVE.type) {
             // 2.4 心跳类型的消息
             System.out.println("收到来自channel为【" + currentChannel + "】的心跳包");

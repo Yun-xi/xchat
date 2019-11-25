@@ -20,6 +20,7 @@
         <module>xchat-route</module>
         <module>xchat-netty</module>
         <module>xchat-common</module>
+        <module>xchat-message</module>
     </modules>
 
     <properties>
